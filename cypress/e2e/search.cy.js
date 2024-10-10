@@ -1,15 +1,17 @@
-import { HeaderPage } from "../pages/headerPage"
-import { SearchPage } from "../pages/searchPage"
+//Agregar contenedor anterior a contains
+const searchPage = require('../pages/searchPage.js');
+const headerPage = require('../pages/headerPage.js');
 
-const headerPage = new HeaderPage();
-const searchPage = new SearchPage();
+const searchTerm = 'heladeras';
+const filterTitle = 'Marca';
 
-describe('template spec', () => {
-  it.only('passes', () => {
+describe('Search', () => {
+  it('Buscar heladeras, filtrar por primer marca de filtros y validar filtro aplicado', () => {
     cy.visit('/');
 
     cy.closePopup();
-    headerPage.makeSearch('heladeras');
-    searchPage.checkboxFiltersFirstValue('Marca').click();
+    headerPage.makeSearch(searchTerm);
+    searchPage.getCheckboxFiltersFirstValue(filterTitle).click();
+    searchPage.validateAllPagesAppliedFilter();
   })
 })
