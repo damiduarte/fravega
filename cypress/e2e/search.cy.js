@@ -1,5 +1,8 @@
 import { HeaderPage } from "../pages/headerPage"
+import { SearchPage } from "../pages/searchPage"
+
 const headerPage = new HeaderPage();
+const searchPage = new SearchPage();
 
 describe('template spec', () => {
   it.only('passes', () => {
@@ -7,5 +10,6 @@ describe('template spec', () => {
 
     cy.closePopup();
     headerPage.makeSearch('heladeras');
+    searchPage.checkboxFiltersFirstValue('Marca').click();
   })
 })
