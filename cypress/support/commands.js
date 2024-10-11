@@ -27,3 +27,14 @@
 Cypress.Commands.add('closePopup', () => {
     cy.get('[data-test-id="close-modal-button"]').click();
 });
+
+Cypress.Commands.add('checkErrors', (reportPath) => {
+    cy.get('@failedValidations').then(failedValidations => {
+        const failedValidationsSize = failedValidations.length;
+        if (failedValidationsSize > 0) {
+            cy.writeFile(reportPath, failedValidations.join(',\n')).then(() => {
+                throw new Error('Se mostraron productos ' + failedValidationsSize + ' que no cumplen con las validaciones realizadas. Ver reporte en: ' + reportPath);
+            });
+        }
+    })
+});
