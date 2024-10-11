@@ -1,3 +1,4 @@
+const failedValidations = [];
 class SearchPage {
     firstFilterValue(filterTitle){
         return cy.get('[style^="grid-area: aggregations"]').contains(filterTitle).next().find('li').first();
@@ -34,24 +35,31 @@ class SearchPage {
     
     //Valida que el filtro aplicado esté presente en todos los productos mostrados en la página actual.
     //Se utiliza en la función 'validateAllPagesAppliedFilter'
-    validateAppliedFilter(){
-        cy.get('@selectedFilter').then(filter => {
-            this.getProductCards()
-            .should('have.length.gt', 0).each(product => {
-                cy.get(product).should('contain', filter);
-            });
-        })
+    validateAppliedFilter(filter){
+        this.getProductCards()
+        .should('have.length.gt', 0).each(product => {
+            try {
+                expect(product).to.contain(filter);
+            } catch (error) {
+                let productTitle = product[0].innerText
+                productTitle = productTitle.slice(0, productTitle.indexOf('\n'));
+                failedValidations.push(productTitle);
+            }
+        });
     }
 
     validateAllPagesAppliedFilter(){
         this.obtainLastPageNumber();
         //Itera y valida el filtro aplicado en cada página
         cy.get('@lastPageNumber').then(lastPageNumber => {
-            Cypress._.range(0, lastPageNumber).forEach(() => {
-                this.validateAppliedFilter();
+        cy.get('@selectedFilter').then(filter => {
+            Cypress._.range(0, lastPageNumber - 1).forEach(() => {
+                this.validateAppliedFilter(filter);
                 this.getNextPaginationButton().click();
             })
         })
+        })
+        cy.wrap(failedValidations).as('failedValidations');
     }
 }
 

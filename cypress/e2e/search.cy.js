@@ -1,17 +1,24 @@
-//Agregar contenedor anterior a contains
 const searchPage = require('../pages/searchPage.js');
 const headerPage = require('../pages/headerPage.js');
-const searchTerm = data.searchTerm;
-import data from '../fixtures/data.json';
+const reportPath = 'cypress/reports/';
+var reportFileName;
 
 describe('Search', () => {
+  beforeEach(() => {
+    cy.visit('/');
+  })
+
   it('Buscar heladeras, filtrar por primer marca de filtros y validar filtro aplicado', () => {
     const filterTitle = 'Marca';
-    cy.visit('/');
-
+    reportFileName = reportPath + 'failedFiltersValidations.txt';
     cy.closePopup();
-    headerPage.makeSearch(searchTerm);
+
+    headerPage.makeSearch('heladeras');
     searchPage.getCheckboxFiltersFirstValue(filterTitle).click();
     searchPage.validateAllPagesAppliedFilter();
+  })
+
+  afterEach(() => {
+    cy.checkErrors(reportFileName);
   })
 })
