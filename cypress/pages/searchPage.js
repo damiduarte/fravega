@@ -1,6 +1,6 @@
 class SearchPage {
     firstFilterValue(filterTitle){
-        return cy.get('[style="grid-area: aggregations;"]').contains(filterTitle).next().find('li').first();
+        return cy.get('[style^="grid-area: aggregations"]').contains(filterTitle).next().find('li').first();
     }
     
     getProductCards(){
