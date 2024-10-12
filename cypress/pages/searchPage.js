@@ -50,14 +50,15 @@ class SearchPage {
 
     validateAllPagesAppliedFilter(){
         this.obtainLastPageNumber();
-        //Itera y valida el filtro aplicado en cada página
-        cy.get('@lastPageNumber').then(lastPageNumber => {
-        cy.get('@selectedFilter').then(filter => {
+        //Itera por cada página y valida el filtro aplicado en cada producto
+        Cypress.Promise.all([
+            cy.get('@lastPageNumber'),
+            cy.get('@selectedFilter')
+        ]).then(([lastPageNumber, filter]) => {
             Cypress._.range(0, lastPageNumber - 1).forEach(() => {
                 this.validateAppliedFilter(filter);
                 this.getNextPaginationButton().click();
             })
-        })
         })
         cy.wrap(failedValidations).as('failedValidations');
     }

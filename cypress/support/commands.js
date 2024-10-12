@@ -29,12 +29,13 @@ Cypress.Commands.add('closePopup', () => {
 });
 
 Cypress.Commands.add('checkErrors', (reportPath) => {
-    cy.get('@failedValidations').then(failedValidations => {
-        const failedValidationsSize = failedValidations.length;
-        if (failedValidationsSize > 0) {
+    //Valido si se creó el alias failed validations antes de obtenerlo ya que si no falla
+    const failedValidations = cy.state('aliases')?.failedValidations != undefined;
+    if(failedValidations){
+        cy.get('@failedValidations').then(failedValidations => {
             cy.writeFile(reportPath, failedValidations.join(',\n')).then(() => {
-                throw new Error('Se mostraron productos ' + failedValidationsSize + ' que no cumplen con las validaciones realizadas. Ver reporte en: ' + reportPath);
+                throw new Error('Se mostraron productos que no cumplen con las validaciones realizadas. Ver reporte en: ' + reportPath);
             });
-        }
-    })
+        })
+    }
 });
