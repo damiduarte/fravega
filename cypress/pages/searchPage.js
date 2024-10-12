@@ -60,7 +60,8 @@ class SearchPage {
                 this.getNextPaginationButton().click();
             })
         })
-        cy.wrap(failedValidations).as('failedValidations');
+        
+        cy.checkErrors(failedValidations);
     }
 }
 
