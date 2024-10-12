@@ -6,11 +6,11 @@ var reportFileName;
 describe('Search', () => {
   beforeEach(() => {
     cy.visit('/');
+    reportFileName = reportPath + this.test.title + '.txt';
   })
 
   it('Buscar heladeras, filtrar por primer marca de filtros y validar filtro aplicado', () => {
     const filterTitle = 'Marca';
-    reportFileName = reportPath + this.test.title + '.txt';
     cy.closePopup();
 
     headerPage.makeSearch('heladeras');
