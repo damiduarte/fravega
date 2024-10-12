@@ -1,7 +1,5 @@
 const searchPage = require('../pages/searchPage.js');
 const headerPage = require('../pages/headerPage.js');
-const reportPath = 'cypress/reports/';
-let reportFileName;
 
 describe('Search', () => {
   beforeEach(() => {
@@ -15,10 +13,5 @@ describe('Search', () => {
     const filterTitle = 'Marca';
     searchPage.getCheckboxFiltersFirstValue(filterTitle).click();
     searchPage.validateAllPagesAppliedFilter();
-  })
-
-  afterEach(() => {
-    reportFileName = reportPath + Cypress.currentTest.title + '.txt';
-    cy.checkErrors(reportFileName);
   })
 })

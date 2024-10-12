@@ -10,6 +10,9 @@ module.exports = defineConfig({
     baseUrl: 'https://www.fravega.com/',
     specPattern: 'cypress/e2e/*.{js,jsx,ts,tsx,feature}',
     viewportWidth: 1920,
-    viewportHeight: 1080
+    viewportHeight: 1080,
+  },
+  env: {
+    reportPath: 'cypress/reports/'
   }
 });
