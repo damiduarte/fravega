@@ -38,11 +38,11 @@ class SearchPage {
     validateAppliedFilter(filter){
         this.getProductCards()
         .should('have.length.gt', 0).each(product => {
+            let productTitle = product[0].innerText.toLowerCase();
+            productTitle = productTitle.slice(0, productTitle.indexOf('\n'));
             try {
-                expect(product).to.contain(filter);
+                expect(productTitle).to.contain(filter.toLowerCase());
             } catch (error) {
-                let productTitle = product[0].innerText
-                productTitle = productTitle.slice(0, productTitle.indexOf('\n'));
                 failedValidations.push(productTitle);
             }
         });
